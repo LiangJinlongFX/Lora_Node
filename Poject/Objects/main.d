@@ -1,0 +1,44 @@
+.\objects\main.o: ..\SYSTEM\main.c
+.\objects\main.o: ..\Common\sys.h
+.\objects\main.o: ..\SYSTEM\stm32f10x.h
+.\objects\main.o: ..\CORE\core_cm3.h
+.\objects\main.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\main.o: ..\SYSTEM\system_stm32f10x.h
+.\objects\main.o: ..\SYSTEM\stm32f10x_conf.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_adc.h
+.\objects\main.o: ..\SYSTEM\stm32f10x.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_bkp.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_can.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_cec.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_crc.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_dac.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_dbgmcu.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_dma.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_exti.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_flash.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_fsmc.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_gpio.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_i2c.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_iwdg.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_pwr.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_rcc.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_rtc.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_sdio.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_spi.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_tim.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_usart.h
+.\objects\main.o: ..\STM32F1_LIB\inc\stm32f10x_wwdg.h
+.\objects\main.o: ..\STM32F1_LIB\inc\misc.h
+.\objects\main.o: ..\Common\usart1.h
+.\objects\main.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: ..\Common\delay.h
+.\objects\main.o: ..\BSP_USER\LED\led.h
+.\objects\main.o: ..\BSP_USER\BME280\bme280.h
+.\objects\main.o: ..\BSP_USER\BME280\bme280_defs.h
+.\objects\main.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\main.o: ..\SX1278\platform\sx12xxEiger\spi.h
+.\objects\main.o: ..\SX1278\radio\radio.h
+.\objects\main.o: ..\BSP_USER\BH1750\bh1750.h
+.\objects\main.o: ..\BSP_USER\ADC\adc.h
+.\objects\main.o: ..\BSP_USER\IIC_2\my_iic2.h
+.\objects\main.o: ..\SX1278\lora_network.h
