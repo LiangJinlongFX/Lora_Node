@@ -21,7 +21,7 @@
 
 //IO操作函数	 
 #define IIC2_SCL    PBout(13) //SCL
-#define IIC2_SDA    PBout(15) //SDA	 
+#define IIC2_SDA    PBout(15) //SDA	
 #define READ2_SDA   PBin(15)  //输入SDA 
 
 //IIC所有操作函数
@@ -30,15 +30,21 @@ void IIC2_Start(void);				//发送IIC开始信号
 void IIC2_Stop(void);	  			//发送IIC停止信号
 void IIC2_Send_Byte(u8 txd);			//IIC发送一个字节
 u8 IIC2_Read_Byte(unsigned char ack);//IIC读取一个字节
-u8 IIC2_Wait_Ack(void); 				//IIC等待ACK信号
-void IIC2_Ack(void);					//IIC发送ACK信号
-void IIC2_NAck(void);				//IIC不发送ACK信号
+u8 IIC2_Wait_Ack(void); 							//IIC等待ACK信号
+void IIC2_Ack(void);									//IIC发送ACK信号
+void IIC2_NAck(void);									//IIC不发送ACK信号
 
 #define BME280_READ_ADDR	0xED
 #define BME280_WRITE_ADDR	0xEC
 
-int8_t II2_ReadData(uint8_t id,uint8_t addr,uint8_t *reg_data,uint8_t len);
-int8_t II2_WriteData(uint8_t id,uint8_t addr,uint8_t *reg_data,uint8_t len);
+u8 IIC2_Read_1Byte(u8 SlaveAddress,u8 Reg_Address,u8 *Reg_Data);
+u8 IIC2_Write_1Byte(u8 SlaveAddress,u8 REG_Address,u8 REG_data);
+
+u8 IIC2_Write_nByte(u8 SlaveAddress, u8 REG_Address, u16 len, u8 *buf);
+u8 IIC2_Read_nByte(u8 SlaveAddress, u8 REG_Address, u16 len, u8 *buf);
+
+int8_t user_i2c_write(uint8_t dev_id, uint8_t reg_addr, uint8_t *reg_data, uint16_t len);
+int8_t user_i2c_read(uint8_t dev_id, uint8_t reg_addr, uint8_t *reg_data, uint16_t len);
 
 
 #endif

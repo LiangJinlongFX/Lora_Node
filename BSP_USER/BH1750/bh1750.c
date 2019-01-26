@@ -8,6 +8,7 @@
 #include "stm32f10x.h"
 #include "myiic.h"
 #include "bh1750.h"
+#include "delay.h"
 
 void BH1750_Init(void)
 {

@@ -33,12 +33,12 @@
 .\objects\main.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: ..\Common\delay.h
 .\objects\main.o: ..\BSP_USER\LED\led.h
-.\objects\main.o: ..\BSP_USER\BME280\bme280.h
-.\objects\main.o: ..\BSP_USER\BME280\bme280_defs.h
-.\objects\main.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\main.o: ..\SX1278\platform\sx12xxEiger\spi.h
 .\objects\main.o: ..\SX1278\radio\radio.h
 .\objects\main.o: ..\BSP_USER\BH1750\bh1750.h
 .\objects\main.o: ..\BSP_USER\ADC\adc.h
-.\objects\main.o: ..\BSP_USER\IIC_2\my_iic2.h
 .\objects\main.o: ..\SX1278\lora_network.h
+.\objects\main.o: ..\BSP_USER\BME280\bme280_app.h
+.\objects\main.o: ..\BSP_USER\BME280\bme280.h
+.\objects\main.o: ..\BSP_USER\BME280\bme280_defs.h
+.\objects\main.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stddef.h

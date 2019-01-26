@@ -11,6 +11,7 @@
 ".\objects\adc.o"
 ".\objects\lora_network_node.o"
 ".\objects\my_iic2.o"
+".\objects\bme280_app.o"
 ".\objects\delay.o"
 ".\objects\sys.o"
 ".\objects\usart1.o"

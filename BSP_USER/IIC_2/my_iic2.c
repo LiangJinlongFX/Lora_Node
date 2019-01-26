@@ -18,14 +18,14 @@
 void IIC2_Init(void)
 {					     
 	GPIO_InitTypeDef GPIO_InitStructure;
-	RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOB, ENABLE );	//使能GPIOB时钟
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);	//使能GPIOB时钟
 	   
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12|GPIO_Pin_13|GPIO_Pin_14|GPIO_Pin_15;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP ;   //推挽输出
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13|GPIO_Pin_15;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-	GPIO_SetBits(GPIOB,GPIO_Pin_12|GPIO_Pin_13|GPIO_Pin_15);
-	GPIO_ResetBits(GPIOB,GPIO_Pin_14);		//地址位为0
+	GPIO_SetBits(GPIOB,GPIO_Pin_13|GPIO_Pin_15); 	//PB13,PB15 输出高
+	
 }
 
 //产生IIC起始信号
@@ -35,21 +35,21 @@ void IIC2_Start(void)
 	IIC2_SDA=1;	  	  
 	IIC2_SCL=1;
 	delay_us(4);
- 	IIC2_SDA=0;//START:when CLK is high,DATA change form high to low 
+ 	IIC2_SDA=0;	//START:when CLK is high,DATA change form high to low 
 	delay_us(4);
-	IIC2_SCL=0;//钳住I2C总线，准备发送或接收数据 
+	IIC2_SCL=0;	//钳住I2C总线，准备发送或接收数据 
 }	
 
 //产生IIC停止信号
 void IIC2_Stop(void)
 {
-	SDA2_OUT();//sda线输出
+	SDA2_OUT();		//sda线输出
 	IIC2_SCL=0;
-	IIC2_SDA=0;//STOP:when CLK is high DATA change form low to high
+	IIC2_SDA=0;		//STOP:when CLK is high DATA change form low to high
  	delay_us(4);
 	IIC2_SCL=1; 
-	IIC2_SDA=1;//发送I2C总线结束信号
-	delay_us(4);							   	
+	delay_us(4);
+	IIC2_SDA=1;		//发送I2C总线结束信号						   	
 }
 
 //等待应答信号到来
@@ -58,21 +58,25 @@ void IIC2_Stop(void)
 u8 IIC2_Wait_Ack(void)
 {
 	u16 ucErrTime=0;
-	SDA2_IN();      //SDA设置为输入  	
+	
+	SDA2_OUT();
 	IIC2_SDA=1;delay_us(1);	   
 	IIC2_SCL=1;delay_us(1);
+	SDA2_IN();      //SDA设置为输入  	
 	while(READ2_SDA)
 	{
 		ucErrTime++;
-		if(ucErrTime>500)
+		if(ucErrTime>250)
 		{
 			IIC2_Stop();
 			return 1;
 		}
 	}
-	IIC2_SCL=0;//时钟输出0 	   
+	IIC2_SCL=0;//时钟输出0
+	delay_us(1);
 	return 0;  
 } 
+
 //产生ACK应答
 void IIC2_Ack(void)
 {
@@ -102,23 +106,23 @@ void IIC2_NAck(void)
 //0，无应答			  
 void IIC2_Send_Byte(u8 txd)
 {                        
-    u8 t;   
-		SDA2_OUT(); 	    
-    IIC2_SCL=0;//拉低时钟开始数据传输
-    for(t=0;t<8;t++)
-    {              
+  u8 t;   
+	SDA2_OUT(); 	    
+  IIC2_SCL=0;//拉低时钟开始数据传输
+  for(t=0;t<8;t++)
+  {              
         //IIC_SDA=(txd&0x80)>>7;
 		if((txd&0x80)>>7)
 			IIC2_SDA=1;
 		else
 			IIC2_SDA=0;
 		txd<<=1; 	  
-		delay_us(5);   //对TEA5767这三个延时都是必须的
+		delay_us(3);   //对TEA5767这三个延时都是必须的
 		IIC2_SCL=1;
-		delay_us(5); 
+		delay_us(3); 
 		IIC2_SCL=0;	
-		delay_us(5);
-    }	 
+		delay_us(3);
+   }	 
 } 
 
 
@@ -143,54 +147,126 @@ u8 IIC2_Read_Byte(unsigned char ack)
     return receive;
 }
 
-int8_t II2_ReadData(uint8_t id,uint8_t addr,uint8_t *reg_data,uint8_t len)
+u8 IIC2_Read_1Byte(u8 SlaveAddress,u8 Reg_Address,u8 *Reg_Data)
 {
-	u8 i;
-	
 	IIC2_Start();	//IIC开始
-	IIC2_Send_Byte(0xec);	//发送写地址
+	IIC2_Send_Byte(SlaveAddress<<1);	//发送写地址
 	if(IIC2_Wait_Ack())
 	{
-		printf("COMM FAIL\r\n");
+		printf("FAIL\r\n");
 		return -4;
 	}
-	IIC2_Send_Byte(addr);								//发送要写的寄存器地址
+	printf("send:%x\r\n",Reg_Address);
+	IIC2_Send_Byte(Reg_Address);
 	if(IIC2_Wait_Ack())
-		return -4;
-	IIC2_Send_Byte(BME280_READ_ADDR);		//发送读地址
-	if(IIC2_Wait_Ack())
-		return -4;
-	for(i=0;i<len;i++)
 	{
-		if(i >= len-1)
-			*reg_data++ = IIC2_Read_Byte(0);
-		else
-			*reg_data++ = IIC2_Read_Byte(1);
+		printf("FAIL\r\n");
+		return -4;
 	}
-	IIC2_Stop();													//IIC结束
+	IIC2_Start();	//IIC开始
+	IIC2_Send_Byte(SlaveAddress<<1 | 0x01);	//发送读地址
+	if(IIC2_Wait_Ack())
+	{
+		printf("FAIL\r\n");
+		return -4;
+	}
+	*Reg_Data = IIC2_Read_Byte(0);
+	IIC2_Stop();									//IIC结束
 	
+}
+
+u8 IIC2_Write_1Byte(u8 SlaveAddress,u8 REG_Address,u8 REG_data)
+{
+	IIC2_Start();	//IIC开始
+	IIC2_Send_Byte(SlaveAddress<<1);	//发送写地址
+	if(IIC2_Wait_Ack())
+	{
+		printf("FAIL\r\n");
+//		return -4;
+	}
+	IIC2_Send_Byte(REG_Address);
+	IIC2_Wait_Ack();
+	IIC2_Send_Byte(REG_data);
+	IIC2_Wait_Ack();
+	IIC2_Stop();									//IIC结束		
+}
+
+/****************** API函数 ***************************/
+/**
+ * IIC2写多字节
+ * @param   
+ * @return 
+ * @brief 
+ **/
+u8 IIC2_Write_nByte(u8 SlaveAddress, u8 REG_Address, u16 len, u8 *buf)
+{	
+	IIC2_Start();	//IIC开始
+	IIC2_Send_Byte(SlaveAddress<<1); 
+	if(IIC2_Wait_Ack())
+	{
+		return 1;
+	}
+	IIC2_Send_Byte(REG_Address); 
+	if(IIC2_Wait_Ack())
+	{
+		return 1;
+	}
+	while(len--) 
+	{
+		IIC2_Send_Byte(*buf++); 
+		IIC2_Wait_Ack();
+	}
+	IIC2_Stop();									//IIC结束	
+	return 0;
+}
+/**
+ * IIC2读多字节
+ * @param   
+ * @return 
+ * @brief 
+ **/
+u8 IIC2_Read_nByte(u8 SlaveAddress, u8 REG_Address, u16 len, u8 *buf)
+{	
+	IIC2_Start();	//IIC开始
+	IIC2_Send_Byte(SlaveAddress<<1); 
+	if(IIC2_Wait_Ack())
+	{
+		return 1;
+	}
+	IIC2_Send_Byte(REG_Address); 
+	if(IIC2_Wait_Ack())
+	{
+		return 1;
+	}	
+	IIC2_Start();	//IIC开始
+	IIC2_Send_Byte(SlaveAddress<<1 | 0x01); 
+	if(IIC2_Wait_Ack())
+	{
+		return 1;
+	}	
+	while(len) 
+	{
+		if(len == 1)
+		{
+			*buf = IIC2_Read_Byte(0);
+		}
+		else
+		{
+			*buf = IIC2_Read_Byte(1);
+		}
+		buf++;
+		len--;
+	}
+	IIC2_Stop();									//IIC结束	
 	return 0;
 }
 
-
-int8_t II2_WriteData(uint8_t id,uint8_t addr,uint8_t *reg_data,uint8_t len)
+int8_t user_i2c_write(uint8_t dev_id, uint8_t reg_addr, uint8_t *reg_data, uint16_t len)
 {
-	u8 i;
-	
-	IIC2_Start();	//IIC开始
-	IIC2_Send_Byte(BME280_WRITE_ADDR);	//发送写地址
-	if(IIC2_Wait_Ack())
-		return -4;
-	IIC2_Send_Byte(addr);								//发送要写的寄存器地址
-	if(IIC2_Wait_Ack())
-		return -4;
-	IIC2_Send_Byte(BME280_READ_ADDR);		//发送写寄存器地址
-	if(IIC2_Wait_Ack())
-		return -4;
-	IIC2_Send_Byte(*reg_data);					//发送要写的寄存器数据
-	if(IIC2_Wait_Ack())
-	return -4;
-	IIC2_Stop();												//IIC结束
-	
-	return 0;
+	return IIC2_Write_nByte(dev_id, reg_addr, len, reg_data);
+}
+
+int8_t user_i2c_read(uint8_t dev_id, uint8_t reg_addr, uint8_t *reg_data, uint16_t len)
+{
+	return IIC2_Read_nByte(dev_id, reg_addr, len, reg_data);
 }

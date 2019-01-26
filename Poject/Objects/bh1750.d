@@ -31,3 +31,4 @@
 .\objects\bh1750.o: ..\BSP_USER\IIC\myiic.h
 .\objects\bh1750.o: ..\Common\sys.h
 .\objects\bh1750.o: ..\BSP_USER\BH1750\bh1750.h
+.\objects\bh1750.o: ..\Common\delay.h
