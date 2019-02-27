@@ -172,7 +172,7 @@ u8 IIC2_Read_1Byte(u8 SlaveAddress,u8 Reg_Address,u8 *Reg_Data)
 	}
 	*Reg_Data = IIC2_Read_Byte(0);
 	IIC2_Stop();									//IIC结束
-	
+	return 0;	
 }
 
 u8 IIC2_Write_1Byte(u8 SlaveAddress,u8 REG_Address,u8 REG_data)
@@ -188,7 +188,9 @@ u8 IIC2_Write_1Byte(u8 SlaveAddress,u8 REG_Address,u8 REG_data)
 	IIC2_Wait_Ack();
 	IIC2_Send_Byte(REG_data);
 	IIC2_Wait_Ack();
-	IIC2_Stop();									//IIC结束		
+	IIC2_Stop();									//IIC结束
+		
+	return 0;
 }
 
 /****************** API函数 ***************************/
@@ -270,3 +272,4 @@ int8_t user_i2c_read(uint8_t dev_id, uint8_t reg_addr, uint8_t *reg_data, uint16
 {
 	return IIC2_Read_nByte(dev_id, reg_addr, len, reg_data);
 }
+

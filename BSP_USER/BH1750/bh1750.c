@@ -65,10 +65,10 @@ u16 BH1750_ReadData(void)
 	if(IIC_Wait_Ack())
 		return 0;
 	RxData = IIC_Read_Byte(1);
-	printf("H=%x ",RxData);
+	//printf("H=%x ",RxData);
 	RxData = (RxData << 8);
 	temp = IIC_Read_Byte(0);
-	printf("L=%x\r\n",temp);
+	//printf("L=%x\r\n",temp);
 	RxData = RxData|temp;
 	IIC_Stop();	//IIC½áÊø
 	

@@ -27,7 +27,32 @@ Project File Date:  01/26/2019
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Program Files\MDK\ARM\ARMCC\Bin'
 Build target 'Target 1'
-".\Objects\project.axf" - 0 Error(s), 0 Warning(s).
+compiling adc.c...
+compiling lora_network_node.c...
+..\SX1278\lora_network.h(166): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\BSP_USER\BH1750\bh1750.h(25): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\SX1278\lora_network_node.c(78): warning:  #223-D: function "memcpy" declared implicitly
+  				lora_memcpy((void*)&rev_pack,(void*)Buffer,sizeof(LoraNetwork_Node_Pack));
+..\SX1278\lora_network_node.c(102): warning:  #188-D: enumerated type mixed with another type
+  	return 1;
+..\SX1278\lora_network_node.c(135): warning:  #223-D: function "memcpy" declared implicitly
+  				lora_memcpy((void*)&rev_pack,(void*)Buffer,sizeof(LoraNetwork_Gateway_Pack));
+..\SX1278\lora_network_node.c(166): warning:  #223-D: function "memcpy" declared implicitly
+  			lora_memcpy(node_list,rev_pack->Load,rev_pack->Load_length);
+..\SX1278\lora_network_node.c(231): warning:  #223-D: function "memcpy" declared implicitly
+  				lora_memcpy((void*)&rev_pack,(void*)Buffer,sizeof(LoraNetwork_Gateway_Pack));
+..\SX1278\lora_network_node.c(303): warning:  #223-D: function "memcpy" declared implicitly
+  	lora_memcpy(node_info->LocalNode_Name,rev_pack->Load,rev_pack->Load_length);
+..\SX1278\lora_network_node.c(361): warning:  #223-D: function "memcpy" declared implicitly
+  	lora_memcpy(send_pack.Load,&SensorData,sizeof(SensorData));
+..\SX1278\lora_network_node.c(342): warning:  #177-D: variable "lora_status"  was declared but never referenced
+  	uint8_t lora_status;
+..\SX1278\lora_network_node.c: 10 warnings, 0 errors
+linking...
+Program Size: Code=17624 RO-data=780 RW-data=208 ZI-data=1960  
+".\Objects\project.axf" - 0 Error(s), 10 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -50,7 +75,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.0.2
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

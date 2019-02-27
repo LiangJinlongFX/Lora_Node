@@ -6,7 +6,13 @@
 
 struct bme280_dev Global_BME280;
 
-void BME280_Init(struct bme280_dev *dev)
+/**
+ * BME280初始化(user)
+ * @param   
+ * @return 0-OK 1-ERROR 
+ * @brief 
+ **/
+uint8_t BME280_Init(struct bme280_dev *dev)
 {
 	// 初始化soft IIC2
 	IIC2_Init();
@@ -15,14 +21,16 @@ void BME280_Init(struct bme280_dev *dev)
 	dev->intf = BME280_I2C_INTF;
 	dev->read = user_i2c_read;
 	dev->write = user_i2c_write;
-	dev->delay_ms = delay_ms;
+	dev->delay_ms = (void*)delay_ms;
 	if(bme280_init(dev))
 	{
 		printf("BME280 Init ERROR!\r\n");
+		return 1;
 	}
 	else
 	{
 		printf("BME280 Init OK!\r\n");
+		return 0;
 	}
 }
 
@@ -57,3 +65,4 @@ void print_sensor_data(struct bme280_data *comp_data)
         printf("%ld, %ld, %ld\r\n",comp_data->temperature, comp_data->pressure, comp_data->humidity);
 #endif
 }
+

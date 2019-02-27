@@ -8,8 +8,9 @@
 extern struct bme280_dev Global_BME280;
 
 
-void BME280_Init(struct bme280_dev *dev);
+uint8_t BME280_Init(struct bme280_dev *dev);
 int8_t set_sensor_data_normal_mode(struct bme280_dev *dev);
 void print_sensor_data(struct bme280_data *comp_data);
 
 #endif
+

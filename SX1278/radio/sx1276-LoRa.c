@@ -164,8 +164,8 @@ tLoRaSettings LoRaSettings =
     0,                // RxSingleOn [0: Continuous, 1 Single]
     0,                // FreqHopOn [0: OFF, 1: ON]              //跳频技术
     4,                // HopPeriod Hops every frequency hopping period symbols
-    100,              // TxPacketTimeout
-    100,              // RxPacketTimeout
+    500,              // TxPacketTimeout
+    500,              // RxPacketTimeout
     128,              // PayloadLength (used for implicit header mode)
 };
 
@@ -308,7 +308,6 @@ void SX1276LoRaSetDefaults( void )
  **/
 void SX1276LoRaReset( void )
 {
-    uint32_t startTick;
 	
 		//拉低复位引脚
 		SX1276SetReset( RADIO_RESET_ON );    

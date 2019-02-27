@@ -31,7 +31,7 @@ typedef struct
 
 /* ------------------集中器端------------------- */
 
-#define LOAD_LENGTH 50	//数据负载长度
+#define LOAD_LENGTH 30	//数据负载长度
 #define LORA_BROADCAST_ID	0	//广播id
 #define LOEA_ACK						0x00    //lora 一般响应
 #define LORA_REG		        0x01		//lora node 注册请求
@@ -82,16 +82,18 @@ typedef struct
 
 
 /*
- * lora 节点数据结构体
+ * lora 节点传感器数据结构体
  */
 typedef struct
 {
 	uint8_t  node_mac;	//数据所属节点标识
-	uint16_t LX;				//光照度
-	uint16_t TVOC;		  //TVOC浓度
-	int32_t  temp;			//温度
-	int32_t  hum;				//湿度
-	int32_t  pressure;	//大气压强
+	int  node_VBAT;	//节点电池电压
+	uint8_t  other_info;	//节点附带数据
+	float  LX;				//光照度
+	float  TVOC;		  //TVOC浓度
+	float  temp;			//温度
+	float  hum;				//湿度
+	float  pressure;	//大气压强
 }LoraNode_Data;
 
 /*
@@ -124,14 +126,26 @@ typedef struct lora_node
 /* -------------------本地节点端相关---------------- */
 #if defined(USED_LORANETWORK_NODE)
 
-extern LoraNode_Data Global_SensorDataBuff;	//全局传感器缓存区
 extern LocalNode_INFO Global_NodeInfo;
 
+//node注册过程
 Lora_Sataus LoraNode_Registe(tRadioDriver *Radio,LocalNode_INFO *node_info);
+//node发送传感器数据包
 Lora_Sataus LoraNode_SendDataPack(tRadioDriver *Radio,LocalNode_INFO *node_info);
+//node发送注册请求包
 Lora_Sataus LoraNode_SendRegPack(tRadioDriver *Radio,LocalNode_INFO *node_info);
+//node处理注册响应包
 Lora_Sataus LoraNode_RegAck(LoraNetwork_Gateway_Pack *rev_pack,LocalNode_INFO *node_info);
+//node发送ACK响应包
 Lora_Sataus LoraNode_SendAckPack(tRadioDriver *Radio,LocalNode_INFO *node_info);
+//node获取传感器数据
+Lora_Sataus LoraNode_GetSensorData(LoraNode_Data *SensorData_Buff);
+//node接收状态机
+Lora_Sataus Loranode_Process(tRadioDriver *Radio,LocalNode_INFO *node_info);
+//node集中器数据包处理
+Lora_Sataus LoraNode_GatewayPack_Process(tRadioDriver *Radio,LocalNode_INFO *node_info,LoraNetwork_Gateway_Pack *rev_pack);
+//node监听并上传数据
+Lora_Sataus LoraNode_UploadData(tRadioDriver *Radio,uint8_t No);
 #endif
 
 #if defined(USED_LORANETWORK_GATEWAY)

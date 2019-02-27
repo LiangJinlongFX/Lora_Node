@@ -33,3 +33,10 @@
 .\objects\lora_network_node.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\lora_network_node.o: ..\Common\delay.h
 .\objects\lora_network_node.o: ..\SX1278\lora_network.h
+.\objects\lora_network_node.o: ..\BSP_USER\BH1750\bh1750.h
+.\objects\lora_network_node.o: ..\BSP_USER\ADC\adc.h
+.\objects\lora_network_node.o: ..\BSP_USER\BME280\bme280_app.h
+.\objects\lora_network_node.o: ..\BSP_USER\BME280\bme280.h
+.\objects\lora_network_node.o: ..\BSP_USER\BME280\bme280_defs.h
+.\objects\lora_network_node.o: D:\Program Files\MDK\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\lora_network_node.o: ..\BSP_USER\LED\led.h

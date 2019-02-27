@@ -88,23 +88,36 @@ u16 Get_Adc2(u8 ch)
 	return ADC_GetConversionValue(ADC2);	//返回最近一次ADC2规则组的转换结果
 }
 
-//u16 Get_Adc_Average(u8 ch,u8 times)
-//{
-//	u32 temp_val=0;
-//	u8 t;
-//	for(t=0;t<times;t++)
-//	{
-//		temp_val+=Get_Adc(ch);
-//		delay_ms(5);
-//	}
-//	return temp_val/times;
-//}
+/**
+ * 获取TVOC传感器电压值
+ * @param   
+ * @return 
+ * @brief 
+ **/
+u16 Get_TVOC_Val(void)
+{
+	u32 temp_val=0;
+	u8 t;
+	for(t=0;t<10;t++)
+	{
+		temp_val+=Get_Adc1(1);
+		delay_ms(1);
+	}
+	return temp_val/10;
+}
 
+/**
+ * 获取电池电压
+ * @param   
+ * @return 
+ * @brief 
+ **/
 float Get_VBAT(void)
 {
 	u8 i;
 	u32 temp_val=0;
 	float val;
+	
 	for(i=0;i<10;i++)
 	{
 		temp_val+=Get_Adc2(0);
@@ -112,7 +125,7 @@ float Get_VBAT(void)
 	}
 	val = (float)temp_val/10;
 	
-	return (float)val/4096*3.3*(5/2)+0.03;
+	return (val/4096)*33*2.5;
 }
 
 

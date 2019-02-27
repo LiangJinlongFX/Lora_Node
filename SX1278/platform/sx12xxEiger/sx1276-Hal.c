@@ -128,7 +128,6 @@ void SX1276InitIo( void )
  **/
 void SX1276SetReset( uint8_t state )
 {
-	GPIO_InitTypeDef GPIO_InitStructure;
 
 	if( state == RADIO_RESET_ON )
 	{
