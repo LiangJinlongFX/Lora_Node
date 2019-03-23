@@ -87,8 +87,8 @@ typedef struct
 typedef struct
 {
 	uint8_t  node_mac;	//数据所属节点标识
-	int  node_VBAT;	//节点电池电压
 	uint8_t  other_info;	//节点附带数据
+	u32  node_VBAT;	//节点电池电压
 	float  LX;				//光照度
 	float  TVOC;		  //TVOC浓度
 	float  temp;			//温度

@@ -110,7 +110,7 @@ u16 Get_TVOC_Val(void)
  * 获取电池电压
  * @param   
  * @return 
- * @brief 
+ * @brief 务必使用校准
  **/
 float Get_VBAT(void)
 {
@@ -125,7 +125,7 @@ float Get_VBAT(void)
 	}
 	val = (float)temp_val/10;
 	
-	return (val/4096)*33*2.5;
+	return (val/4096)*3300*2.5;
 }
 
 

@@ -37,23 +37,28 @@ int main(void)
 	//初始化节点硬件唯一标识
 	Global_NodeInfo.LocalNode_Mac = LORA_LOCAL_MAC;
 	//发起注册请求过程
-	if(Global_NodeInfo.LocalNode_Mac == 0)
+	printf("start registe!\r\n");
+	status = LoraNode_Registe(Radio,&Global_NodeInfo);
+	if(status == LORA_SYSTEM_ERROR)
 	{
-		printf("start registe!\r\n");
-		status = LoraNode_Registe(Radio,&Global_NodeInfo);
-		if(status == LORA_SYSTEM_ERROR)
+		printf("Registe TIMEOUT!!!\r\n");
+		while(1)
 		{
-			printf("Registe TIMEOUT!!!\r\n");
-			while(1)
-			{
-				LEDR = 0;
-				delay_ms(200);
-				LEDR = 1;
-				delay_ms(200);					
-			}
+			LEDR = 0;
+			delay_ms(200);
+			LEDR = 1;
+			delay_ms(200);					
 		}
 	}
 	printf("start rev gateway\r\n");
 	Loranode_Process(Radio,&Global_NodeInfo);
+	/* 异常状态退出LORA处理线程 */
+	while(1)
+	{
+		LEDR = 0;
+		delay_ms(200);
+		LEDR = 1;
+		delay_ms(200);		
+	}
 }
 

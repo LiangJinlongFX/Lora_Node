@@ -10,7 +10,7 @@
 #include "sys.h"
 
 #define LEDR PBout(2)// PB2
-#define LEDG PBout(3)// PB3
+#define LEDG PBout(3)// PB3    绿灯无法正常使用
 #define LEDB PBout(4)// PB4
 
 
